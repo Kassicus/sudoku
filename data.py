@@ -4,5 +4,7 @@ class Colors():
     def __init__(self):
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
+        self.green = (0, 255, 0)
+        self.highlight = (44, 42, 67)
 
 color = Colors()
