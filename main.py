@@ -1,6 +1,7 @@
 import pygame
 import os
 import data
+import board
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -21,6 +22,8 @@ class Game(object):
         self.clock = pygame.time.Clock()
         data.events = pygame.event.get()
 
+        self.board = board.Board()
+
     def start(self):
         while self.running:
             data.events = pygame.event.get()
@@ -36,11 +39,13 @@ class Game(object):
     def draw(self):
         self.screen.fill(data.color.black)
 
+        self.board.draw(self.screen)
+
     def update(self):
         pygame.display.update()
         self.clock.tick(30)
 
-game = Game(800, 800, "Kassicus/sudoku")
+game = Game(758, 758, "Kassicus/sudoku")
 game.start()
 
 pygame.quit()
