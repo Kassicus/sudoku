@@ -27,7 +27,7 @@ class Game(object):
 
             for event in data.events:
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
 
             self.draw()
 
