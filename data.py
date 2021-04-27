@@ -1,3 +1,7 @@
+import pygame
+
+pygame.font.init()
+
 events = None
 
 class Colors():
@@ -8,3 +12,5 @@ class Colors():
         self.highlight = (44, 42, 67)
 
 color = Colors()
+
+standard = pygame.font.Font('assets/fonts/JetBrainsMono-Regular.ttf', 48)

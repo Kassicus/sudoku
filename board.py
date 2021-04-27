@@ -1,6 +1,8 @@
 import pygame
 import data
 
+#pygame.font.init()
+
 class Cell(object):
     def __init__(self, x, y, width, height):
         self.x = x
@@ -8,14 +10,33 @@ class Cell(object):
         self.width = width
         self.height = height
 
+        self.selectedImage = pygame.image.load('assets/board/selected_indicator.png')
+
         self.hovered = False
+        self.selected = False
+
+        self.notes = []
+        self.noted = False
+
+        self.number = 0
+
+        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.white)
 
     def update(self):
         self.checkMouse()
+        self.checkKeyboard()
+
+        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.white)
 
     def draw(self, surface):
         if self.hovered:
             self.drawHover(surface)
+
+        if self.selected:
+            surface.blit(self.selectedImage, (self.x, self.y))
+
+        if self.number != 0:
+            surface.blit(self.numberText, (self.x + 27, self.y + 10))
 
     def drawOutline(self, surface):
         pygame.draw.rect(surface, data.color.green, (self.x, self.y, self.width, self.height), 1)
@@ -29,10 +50,43 @@ class Cell(object):
         if self.x <= mouse_pos[0] <= self.x + self.width:
             if self.y <= mouse_pos[1] <= self.y + self.height:
                 self.hovered = True
+                self.checkClicked(True)
             else:
                 self.hovered = False
+                self.checkClicked(False)
         else:
             self.hovered = False
+            self.checkClicked(False)
+
+    def checkClicked(self, flag):
+        for event in data.events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.selected = flag
+
+    def checkKeyboard(self):
+        if self.selected:
+            for event in data.events:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_0:
+                        self.number = 0
+                    if event.key == pygame.K_1:
+                        self.number = 1
+                    if event.key == pygame.K_2:
+                        self.number = 2
+                    if event.key == pygame.K_3:
+                        self.number = 3
+                    if event.key == pygame.K_4:
+                        self.number = 4
+                    if event.key == pygame.K_5:
+                        self.number = 5
+                    if event.key == pygame.K_6:
+                        self.number = 6
+                    if event.key == pygame.K_7:
+                        self.number = 7
+                    if event.key == pygame.K_8:
+                        self.number = 8
+                    if event.key == pygame.K_9:
+                        self.number = 9
 
 
 class Region(object):
