@@ -32,6 +32,14 @@ class Game(object):
                 if event.type == pygame.QUIT:
                     self.running = False
 
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_g:
+                        data.writemode = data.writemodes[2]
+                    if event.key == pygame.K_f:
+                        data.writemode = data.writemodes[0]
+                    if event.key == pygame.K_n:
+                        data.writemode = data.writemodes[1]
+
             self.draw()
 
             self.update()

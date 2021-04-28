@@ -13,7 +13,7 @@ class Cell(object):
         self.hovered = False
         self.selected = False
 
-        self.notes = []
+        self.notes = [False, False, False, False, False, False, False, False, False, False]
         self.noted = False
 
         self.color = data.color.light
@@ -22,7 +22,19 @@ class Cell(object):
 
         self.number = 0
 
+        self.given = False
+
         self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, self.color)
+
+        self.noteOneText = pygame.font.Font.render(data.note, '1', True, self.color)
+        self.noteTwoText = pygame.font.Font.render(data.note, '2', True, self.color)
+        self.noteThreeText = pygame.font.Font.render(data.note, '3', True, self.color)
+        self.noteFourText = pygame.font.Font.render(data.note, '4', True, self.color)
+        self.noteFiveText = pygame.font.Font.render(data.note, '5', True, self.color)
+        self.noteSixText = pygame.font.Font.render(data.note, '6', True, self.color)
+        self.noteSevenText = pygame.font.Font.render(data.note, '7', True, self.color)
+        self.noteEightText = pygame.font.Font.render(data.note, '8', True, self.color)
+        self.noteNineText = pygame.font.Font.render(data.note, '9', True, self.color)
 
     def update(self):
         self.checkMouse()
@@ -33,7 +45,23 @@ class Cell(object):
         else:
             self.color = data.color.light
 
+        if self.given:
+            self.color = data.color.select
+
+        if self.noted:
+            self.color = data.color.note
+
         self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, self.color)
+
+        self.noteOneText = pygame.font.Font.render(data.note, '1', True, self.color)
+        self.noteTwoText = pygame.font.Font.render(data.note, '2', True, self.color)
+        self.noteThreeText = pygame.font.Font.render(data.note, '3', True, self.color)
+        self.noteFourText = pygame.font.Font.render(data.note, '4', True, self.color)
+        self.noteFiveText = pygame.font.Font.render(data.note, '5', True, self.color)
+        self.noteSixText = pygame.font.Font.render(data.note, '6', True, self.color)
+        self.noteSevenText = pygame.font.Font.render(data.note, '7', True, self.color)
+        self.noteEightText = pygame.font.Font.render(data.note, '8', True, self.color)
+        self.noteNineText = pygame.font.Font.render(data.note, '9', True, self.color)
 
     def draw(self, surface):
         if self.hovered:
@@ -44,6 +72,25 @@ class Cell(object):
 
         if self.number != 0:
             surface.blit(self.numberText, (self.x + 27, self.y + 10))
+
+        if self.notes[1]:
+            surface.blit(self.noteOneText, (self.x + 8, self.y))
+        if self.notes[2]:
+            surface.blit(self.noteTwoText, (self.x + 33, self.y))
+        if self.notes[3]:
+            surface.blit(self.noteThreeText, (self.x + 58, self.y))
+        if self.notes[4]:
+            surface.blit(self.noteFourText, (self.x + 8, self.y + 25))
+        if self.notes[5]:
+            surface.blit(self.noteFiveText, (self.x + 33, self.y + 25))
+        if self.notes[6]:
+            surface.blit(self.noteSixText, (self.x + 58, self.y + 25))
+        if self.notes[7]:
+            surface.blit(self.noteSevenText, (self.x + 8, self.y + 50))
+        if self.notes[8]:
+            surface.blit(self.noteEightText, (self.x + 33, self.y + 50))
+        if self.notes[9]:
+            surface.blit(self.noteNineText, (self.x + 58, self.y + 50))
 
     def drawOutline(self, surface):
         pygame.draw.rect(surface, data.color.green, (self.x, self.y, self.width, self.height), 1)
@@ -74,26 +121,108 @@ class Cell(object):
         if self.selected:
             for event in data.events:
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_0:
-                        self.number = 0
-                    if event.key == pygame.K_1:
-                        self.number = 1
-                    if event.key == pygame.K_2:
-                        self.number = 2
-                    if event.key == pygame.K_3:
-                        self.number = 3
-                    if event.key == pygame.K_4:
-                        self.number = 4
-                    if event.key == pygame.K_5:
-                        self.number = 5
-                    if event.key == pygame.K_6:
-                        self.number = 6
-                    if event.key == pygame.K_7:
-                        self.number = 7
-                    if event.key == pygame.K_8:
-                        self.number = 8
-                    if event.key == pygame.K_9:
-                        self.number = 9
+                    if data.writemode == 'given':
+                        self.given = True
+                        self.noted = False
+
+                        if event.key == pygame.K_0:
+                            self.number = 0
+                        if event.key == pygame.K_1:
+                            self.number = 1
+                        if event.key == pygame.K_2:
+                            self.number = 2
+                        if event.key == pygame.K_3:
+                            self.number = 3
+                        if event.key == pygame.K_4:
+                            self.number = 4
+                        if event.key == pygame.K_5:
+                            self.number = 5
+                        if event.key == pygame.K_6:
+                            self.number = 6
+                        if event.key == pygame.K_7:
+                            self.number = 7
+                        if event.key == pygame.K_8:
+                            self.number = 8
+                        if event.key == pygame.K_9:
+                            self.number = 9
+
+                    elif data.writemode == 'normal':
+                        self.given = False
+                        self.noted = False
+
+                        if event.key == pygame.K_0:
+                            self.number = 0
+                        if event.key == pygame.K_1:
+                            self.number = 1
+                        if event.key == pygame.K_2:
+                            self.number = 2
+                        if event.key == pygame.K_3:
+                            self.number = 3
+                        if event.key == pygame.K_4:
+                            self.number = 4
+                        if event.key == pygame.K_5:
+                            self.number = 5
+                        if event.key == pygame.K_6:
+                            self.number = 6
+                        if event.key == pygame.K_7:
+                            self.number = 7
+                        if event.key == pygame.K_8:
+                            self.number = 8
+                        if event.key == pygame.K_9:
+                            self.number = 9
+
+                    if data.writemode == 'note':
+                        self.noted = True
+                        if event.key == pygame.K_0:
+                            if self.notes[0]:
+                                self.notes[0] = False
+                            else:
+                                self.notes[0] = True
+                        if event.key == pygame.K_1:
+                            if self.notes[1]:
+                                self.notes[1] = False
+                            else:
+                                self.notes[1] = True
+                        if event.key == pygame.K_2:
+                            if self.notes[2]:
+                                self.notes[2] = False
+                            else:
+                                self.notes[2] = True
+                        if event.key == pygame.K_3:
+                            if self.notes[3]:
+                                self.notes[3] = False
+                            else:
+                                self.notes[3] = True
+                        if event.key == pygame.K_4:
+                            if self.notes[4]:
+                                self.notes[4] = False
+                            else:
+                                self.notes[4] = True
+                        if event.key == pygame.K_5:
+                            if self.notes[5]:
+                                self.notes[5] = False
+                            else:
+                                self.notes[5] = True
+                        if event.key == pygame.K_6:
+                            if self.notes[6]:
+                                self.notes[6] = False
+                            else:
+                                self.notes[6] = True
+                        if event.key == pygame.K_7:
+                            if self.notes[7]:
+                                self.notes[7] = False
+                            else:
+                                self.notes[7] = True
+                        if event.key == pygame.K_8:
+                            if self.notes[8]:
+                                self.notes[8] = False
+                            else:
+                                self.notes[8] = True
+                        if event.key == pygame.K_9:
+                            if self.notes[9]:
+                                self.notes[9] = False
+                            else:
+                                self.notes[9] = True
 
 
 class Region(object):
@@ -184,9 +313,9 @@ class Board(object):
         for region in self.regions:
             self.regions[region].checkDuplicates()
 
-        self.checkRows(self.regions['Region One'], self.regions['Region Two'], self.regions['Region Three'])
-        self.checkRows(self.regions['Region Four'], self.regions['Region Five'], self.regions['Region Six'])
-        self.checkRows(self.regions['Region Seven'], self.regions['Region Eight'], self.regions['Region Nine'])
+        #self.checkRows(self.regions['Region One'], self.regions['Region Two'], self.regions['Region Three'])
+        #self.checkRows(self.regions['Region Four'], self.regions['Region Five'], self.regions['Region Six'])
+        #self.checkRows(self.regions['Region Seven'], self.regions['Region Eight'], self.regions['Region Nine'])
 
         #self.checkColumns(self.regions['Region One'], self.regions['Region Four'], self.regions['Region Seven'])
         #self.checkColumns(self.regions['Region Two'], self.regions['Region Five'], self.regions['Region Eight'])
