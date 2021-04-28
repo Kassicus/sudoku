@@ -9,6 +9,8 @@ class Cell(object):
         self.height = height
 
         self.selectedImage = pygame.image.load('assets/board/selected_indicator.png')
+        self.noteSelectedImage = pygame.image.load('assets/board/noted_indicator.png')
+        self.givenSelectedImage = pygame.image.load('assets/board/given_indicator.png')
 
         self.hovered = False
         self.selected = False
@@ -68,7 +70,12 @@ class Cell(object):
             self.drawHover(surface)
 
         if self.selected:
-            surface.blit(self.selectedImage, (self.x, self.y))
+            if data.writemode == 'note':
+                surface.blit(self.noteSelectedImage, (self.x, self.y))
+            elif data.writemode == 'given':
+                surface.blit(self.givenSelectedImage, (self.x, self.y))
+            else:
+                surface.blit(self.selectedImage, (self.x, self.y))
 
         if self.number != 0:
             surface.blit(self.numberText, (self.x + 27, self.y + 10))
@@ -224,6 +231,10 @@ class Cell(object):
                             else:
                                 self.notes[9] = True
 
+                    if event.key == pygame.K_e:
+                        self.number = 0
+                        for x in range(len(self.notes)):
+                            self.notes[x] = False
 
 class Region(object):
     def __init__(self, x, y, width, height):

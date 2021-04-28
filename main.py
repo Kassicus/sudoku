@@ -33,11 +33,11 @@ class Game(object):
                     self.running = False
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_g:
+                    if event.key == pygame.K_q:
                         data.writemode = data.writemodes[2]
-                    if event.key == pygame.K_f:
+                    if event.key == pygame.K_a:
                         data.writemode = data.writemodes[0]
-                    if event.key == pygame.K_n:
+                    if event.key == pygame.K_d:
                         data.writemode = data.writemodes[1]
 
             self.draw()
