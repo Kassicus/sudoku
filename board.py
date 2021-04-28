@@ -112,6 +112,12 @@ class Region(object):
         [self.cells['Cell Seven'], self.cells['Cell Eight'], self.cells['Cell Nine']]
         ]
 
+        self.columns = [
+        [self.cells['Cell One'], self.cells['Cell Four'], self.cells['Cell Seven']],
+        [self.cells['Cell Two'], self.cells['Cell Five'], self.cells['Cell Eight']],
+        [self.cells['Cell Three'], self.cells['Cell Six'], self.cells['Cell Nine']]
+        ]
+
     def update(self):
         for cell in self.cells:
             self.cells[cell].update()
@@ -172,6 +178,10 @@ class Board(object):
         self.checkRows(self.regions['Region Four'], self.regions['Region Five'], self.regions['Region Six'])
         self.checkRows(self.regions['Region Seven'], self.regions['Region Eight'], self.regions['Region Nine'])
 
+        self.checkColumns(self.regions['Region One'], self.regions['Region Four'], self.regions['Region Seven'])
+        self.checkColumns(self.regions['Region Two'], self.regions['Region Five'], self.regions['Region Eight'])
+        self.checkColumns(self.regions['Region Three'], self.regions['Region Six'], self.regions['Region Nine'])
+
     def checkRows(self, r1, r2, r3):
         for checkRow in range(3):
             numbers = []
@@ -196,3 +206,28 @@ class Board(object):
                         print('error')
                     else:
                         numbers.append(r3.rows[checkRow][x].number)
+
+    def checkColumns(self, r1, r2, r3):
+        for checkColumn in range(3):
+            numbers = []
+
+            for x in range(len(r1.columns[checkColumn])):
+                if r1.columns[checkColumn][x].number != 0:
+                    if r1.columns[checkColumn][x].number in numbers:
+                        print('error')
+                    else:
+                        numbers.append(r1.columns[checkColumn][x].number)
+
+            for x in range(len(r2.columns[checkColumn])):
+                if r2.columns[checkColumn][x].number != 0:
+                    if r2.columns[checkColumn][x].number in numbers:
+                        print('error')
+                    else:
+                        numbers.append(r2.columns[checkColumn][x].number)
+
+            for x in range(len(r3.columns[checkColumn])):
+                if r3.columns[checkColumn][x].number != 0:
+                    if r3.columns[checkColumn][x].number in numbers:
+                        print('error')
+                    else:
+                        numbers.append(r3.columns[checkColumn][x].number)
