@@ -16,15 +16,24 @@ class Cell(object):
         self.notes = []
         self.noted = False
 
+        self.color = data.color.light
+
+        self.errored = False
+
         self.number = 0
 
-        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.light)
+        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, self.color)
 
     def update(self):
         self.checkMouse()
         self.checkKeyboard()
 
-        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.light)
+        if self.errored:
+            self.color = data.color.error
+        else:
+            self.color = data.color.light
+
+        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, self.color)
 
     def draw(self, surface):
         if self.hovered:
@@ -135,9 +144,10 @@ class Region(object):
         for cell in self.cells:
             if self.cells[cell].number != 0:
                 if self.cells[cell].number in numbers:
-                    print('error')
+                    self.cells[cell].errored = True
                 else:
                     numbers.append(self.cells[cell].number)
+                    self.cells[cell].errored = False
 
 class Board(object):
     def __init__(self):
@@ -178,9 +188,9 @@ class Board(object):
         self.checkRows(self.regions['Region Four'], self.regions['Region Five'], self.regions['Region Six'])
         self.checkRows(self.regions['Region Seven'], self.regions['Region Eight'], self.regions['Region Nine'])
 
-        self.checkColumns(self.regions['Region One'], self.regions['Region Four'], self.regions['Region Seven'])
-        self.checkColumns(self.regions['Region Two'], self.regions['Region Five'], self.regions['Region Eight'])
-        self.checkColumns(self.regions['Region Three'], self.regions['Region Six'], self.regions['Region Nine'])
+        #self.checkColumns(self.regions['Region One'], self.regions['Region Four'], self.regions['Region Seven'])
+        #self.checkColumns(self.regions['Region Two'], self.regions['Region Five'], self.regions['Region Eight'])
+        #self.checkColumns(self.regions['Region Three'], self.regions['Region Six'], self.regions['Region Nine'])
 
     def checkRows(self, r1, r2, r3):
         for checkRow in range(3):
@@ -189,23 +199,26 @@ class Board(object):
             for x in range(len(r1.rows[checkRow])):
                 if r1.rows[checkRow][x].number != 0:
                     if r1.rows[checkRow][x].number in numbers:
-                        print('error')
+                        r1.rows[checkRow][x].errored = True
                     else:
                         numbers.append(r1.rows[checkRow][x].number)
+                        r1.rows[checkRow][x].errored = False
 
             for x in range(len(r2.rows[checkRow])):
                 if r2.rows[checkRow][x].number != 0:
                     if r2.rows[checkRow][x].number in numbers:
-                        print('error')
+                        r2.rows[checkRow][x].errored = True
                     else:
                         numbers.append(r2.rows[checkRow][x].number)
+                        r2.rows[checkRow][x].errored = False
 
             for x in range(len(r3.rows[checkRow])):
                 if r3.rows[checkRow][x].number != 0:
                     if r3.rows[checkRow][x].number in numbers:
-                        print('error')
+                        r3.rows[checkRow][x].errored = True
                     else:
                         numbers.append(r3.rows[checkRow][x].number)
+                        r3.rows[checkRow][x].errored = False
 
     def checkColumns(self, r1, r2, r3):
         for checkColumn in range(3):

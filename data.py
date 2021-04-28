@@ -11,6 +11,7 @@ class Colors():
         self.green = (0, 255, 0)
         self.highlight = (44, 42, 67)
         self.light = (203, 219, 252)
+        self.error = (236, 29, 116)
 
 color = Colors()
 
