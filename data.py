@@ -10,6 +10,7 @@ class Colors():
         self.white = (255, 255, 255)
         self.green = (0, 255, 0)
         self.highlight = (44, 42, 67)
+        self.light = (203, 219, 252)
 
 color = Colors()
 

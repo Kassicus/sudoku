@@ -1,8 +1,6 @@
 import pygame
 import data
 
-#pygame.font.init()
-
 class Cell(object):
     def __init__(self, x, y, width, height):
         self.x = x
@@ -20,13 +18,13 @@ class Cell(object):
 
         self.number = 0
 
-        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.white)
+        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.light)
 
     def update(self):
         self.checkMouse()
         self.checkKeyboard()
 
-        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.white)
+        self.numberText = pygame.font.Font.render(data.standard, str(self.number), True, data.color.light)
 
     def draw(self, surface):
         if self.hovered:
@@ -108,6 +106,12 @@ class Region(object):
         'Cell Nine': Cell(self.x + 166, self.y + 166, 80, 80)
         }
 
+        self.rows = [
+        [self.cells['Cell One'], self.cells['Cell Two'], self.cells['Cell Three']],
+        [self.cells['Cell Four'], self.cells['Cell Five'], self.cells['Cell Six']],
+        [self.cells['Cell Seven'], self.cells['Cell Eight'], self.cells['Cell Nine']]
+        ]
+
     def update(self):
         for cell in self.cells:
             self.cells[cell].update()
@@ -118,6 +122,16 @@ class Region(object):
 
     def drawOutline(self, surface):
         pygame.draw.rect(surface, data.color.white, (self.x, self.y, self.width, self.height), 1)
+
+    def checkDuplicates(self):
+        numbers = []
+
+        for cell in self.cells:
+            if self.cells[cell].number != 0:
+                if self.cells[cell].number in numbers:
+                    print('error')
+                else:
+                    numbers.append(self.cells[cell].number)
 
 class Board(object):
     def __init__(self):
@@ -142,8 +156,43 @@ class Board(object):
         for region in self.regions:
             self.regions[region].update()
 
+        self.checkDuplicates()
+
     def draw(self, surface):
         surface.blit(self.backgroundImage, (self.x, self.y))
 
         for region in self.regions:
             self.regions[region].draw(surface)
+
+    def checkDuplicates(self):
+        for region in self.regions:
+            self.regions[region].checkDuplicates()
+
+        self.checkRows(self.regions['Region One'], self.regions['Region Two'], self.regions['Region Three'])
+        self.checkRows(self.regions['Region Four'], self.regions['Region Five'], self.regions['Region Six'])
+        self.checkRows(self.regions['Region Seven'], self.regions['Region Eight'], self.regions['Region Nine'])
+
+    def checkRows(self, r1, r2, r3):
+        for checkRow in range(3):
+            numbers = []
+
+            for x in range(len(r1.rows[checkRow])):
+                if r1.rows[checkRow][x].number != 0:
+                    if r1.rows[checkRow][x].number in numbers:
+                        print('error')
+                    else:
+                        numbers.append(r1.rows[checkRow][x].number)
+
+            for x in range(len(r2.rows[checkRow])):
+                if r2.rows[checkRow][x].number != 0:
+                    if r2.rows[checkRow][x].number in numbers:
+                        print('error')
+                    else:
+                        numbers.append(r2.rows[checkRow][x].number)
+
+            for x in range(len(r3.rows[checkRow])):
+                if r3.rows[checkRow][x].number != 0:
+                    if r3.rows[checkRow][x].number in numbers:
+                        print('error')
+                    else:
+                        numbers.append(r3.rows[checkRow][x].number)
